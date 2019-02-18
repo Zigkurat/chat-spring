@@ -1,0 +1,95 @@
+.profile-container {
+    padding-top: 30px;
+}
+
+.profile-info {
+    text-align: center;
+}
+
+.profile-info .profile-avatar img {
+    border-radius: 50%;
+    max-width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.profile-info .profile-name {
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.profile-info .profile-email {
+    font-weight: 400;
+}
+
+.text-avatar {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    vertical-align: middle;
+    text-align: center;
+    border-radius: 50%;
+    background: #46b5e5;
+    background: linear-gradient(45deg,#46b5e5 1%,#1e88e5 64%,#40baf5 97%);
+    background-image: -ms-linear-gradient(45deg,#46b5e5 1%,#1e88e5 64%,#40baf5 97%);
+    background-image: -moz-linear-gradient(45deg,#46b5e5 1%,#1e88e5 64%,#40baf5 97%);
+    background-image: -o-linear-gradient(45deg,#46b5e5 1%,#1e88e5 64%,#40baf5 97%);
+    background-image: -webkit-linear-gradient(45deg,#46b5e5 1%,#1e88e5 64%,#40baf5 97%);
+    background-image: linear-gradient(45deg,#46b5e5 1%,#1e88e5 64%,#40baf5 97%);
+}
+
+.text-avatar span {
+    line-height: 200px;
+    color: #fff;
+    font-size: 3em;
+}
+
+.EditProfile-Form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.EditProfile-Form-Field {
+    width: 220px;
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.EditProfile-Form-Field label {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.EditProfile-Form-Field input {
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+
+.profile-avatar {
+    position: relative;
+    width: 200px;
+    display: inline-block;
+
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.profile-avatar input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.profile-avatar--with-image .text-avatar {
+    opacity: 0;
+}

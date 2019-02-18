@@ -1,0 +1,12 @@
+.MessageForm {
+
+}
+
+.MessageForm form {
+    display: flex;
+    flex-direction: row;
+}
+
+.MessageForm form button {
+    margin-left: 20px;
+}
