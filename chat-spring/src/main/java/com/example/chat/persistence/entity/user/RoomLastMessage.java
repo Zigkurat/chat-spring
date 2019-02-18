@@ -10,7 +10,7 @@ import java.util.Objects;
 public class RoomLastMessage extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user1;
+    private User owner;
 
     private Long messageId;
 
@@ -19,18 +19,18 @@ public class RoomLastMessage extends BaseEntity {
     public RoomLastMessage() {
     }
 
-    public RoomLastMessage(User user1, Long messageId, Long roomId) {
-        this.user1 = user1;
+    public RoomLastMessage(User owner, Long messageId, Long roomId) {
+        this.owner = owner;
         this.messageId = messageId;
         this.roomId = roomId;
     }
 
-    public User getUser1() {
-        return user1;
+    public User getOwner() {
+        return owner;
     }
 
-    public void setUser1(User user1) {
-        this.user1 = user1;
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     public Long getMessageId() {

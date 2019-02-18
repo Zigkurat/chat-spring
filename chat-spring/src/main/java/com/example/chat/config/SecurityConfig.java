@@ -69,9 +69,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js",
+                        "/v2/api-docs",
+                        "/configuration/**",
+                        "/swagger*/**",
+                        "/webjars/**",
                         "/api/v1/auth/**",
-                        "/api/v1/oauth2/**",
-                        "**").permitAll()
+                        "/api/v1/oauth2/**"
+                        ).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()

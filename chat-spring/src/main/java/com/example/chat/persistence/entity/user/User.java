@@ -31,7 +31,7 @@ public class User extends BaseEntity {
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "users")
     private Set<Room> rooms = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user1")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "owner")
     private Set<RoomLastMessage> roomLastMessages = new HashSet<>();
 
     public User() {
