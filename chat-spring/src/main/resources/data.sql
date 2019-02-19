@@ -1,2 +1,2 @@
-INSERT INTO user (created_at, updated_at, email, password, provider, role, username) VALUES
+INSERT IGNORE INTO user (created_at, updated_at, email, password, provider, role, username) VALUES
 ('2019-02-19 07:06:35', '2019-02-19 07:06:35', 'admin@gmail.com', '$2a$10$xXR40w.HU9jIZ1zM52l6keEyr201rupWriAjKB1sjqNQoInr5r19G', 'LOCAL', 'ADMIN', 'admin');
