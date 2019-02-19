@@ -32,7 +32,7 @@ public class User extends BaseEntity {
     private Set<Room> rooms = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "owner")
-    private Set<RoomLastMessage> roomLastMessages = new HashSet<>();
+    private Set<UserLastSeenMessageInRoom> userLastSeenMessageInRooms = new HashSet<>();
 
     public User() {
     }
@@ -103,12 +103,12 @@ public class User extends BaseEntity {
         this.rooms = rooms;
     }
 
-    public Set<RoomLastMessage> getRoomLastMessages() {
-        return roomLastMessages;
+    public Set<UserLastSeenMessageInRoom> getUserLastSeenMessageInRooms() {
+        return userLastSeenMessageInRooms;
     }
 
-    public void setRoomLastMessages(Set<RoomLastMessage> roomLastMessages) {
-        this.roomLastMessages = roomLastMessages;
+    public void setUserLastSeenMessageInRooms(Set<UserLastSeenMessageInRoom> userLastSeenMessageInRooms) {
+        this.userLastSeenMessageInRooms = userLastSeenMessageInRooms;
     }
 
     @Override
@@ -124,12 +124,12 @@ public class User extends BaseEntity {
                 role == user.role &&
                 provider == user.provider &&
                 Objects.equals(rooms, user.rooms) &&
-                Objects.equals(roomLastMessages, user.roomLastMessages);
+                Objects.equals(userLastSeenMessageInRooms, user.userLastSeenMessageInRooms);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), username, email, avatarUrl, password, role, provider, roomLastMessages);
+        return Objects.hash(super.hashCode(), username, email, avatarUrl, password, role, provider, userLastSeenMessageInRooms);
     }
 
     @Override
@@ -142,7 +142,7 @@ public class User extends BaseEntity {
                 ", role=" + role +
                 ", provider=" + provider +
                 ", rooms=" + rooms +
-                ", roomLastMessages=" + roomLastMessages +
+                ", userLastSeenMessageInRooms=" + userLastSeenMessageInRooms +
                 "} " + super.toString();
     }
 }

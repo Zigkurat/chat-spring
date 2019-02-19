@@ -6,8 +6,8 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "room_last_message")
-public class RoomLastMessage extends BaseEntity {
+@Table(name = "user_last_seen_message_in_room")
+public class UserLastSeenMessageInRoom extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
     private User owner;
@@ -16,10 +16,10 @@ public class RoomLastMessage extends BaseEntity {
 
     private Long roomId;
 
-    public RoomLastMessage() {
+    public UserLastSeenMessageInRoom() {
     }
 
-    public RoomLastMessage(User owner, Long messageId, Long roomId) {
+    public UserLastSeenMessageInRoom(User owner, Long messageId, Long roomId) {
         this.owner = owner;
         this.messageId = messageId;
         this.roomId = roomId;
@@ -52,9 +52,9 @@ public class RoomLastMessage extends BaseEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RoomLastMessage)) return false;
+        if (!(o instanceof UserLastSeenMessageInRoom)) return false;
         if (!super.equals(o)) return false;
-        RoomLastMessage that = (RoomLastMessage) o;
+        UserLastSeenMessageInRoom that = (UserLastSeenMessageInRoom) o;
         return Objects.equals(messageId, that.messageId) &&
                 Objects.equals(roomId, that.roomId);
     }
@@ -66,7 +66,7 @@ public class RoomLastMessage extends BaseEntity {
 
     @Override
     public String toString() {
-        return "RoomLastMessage{" +
+        return "UserLastSeenMessageInRoom{" +
                 "messageId=" + messageId +
                 ", roomId=" + roomId +
                 "} " + super.toString();

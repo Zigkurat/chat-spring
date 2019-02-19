@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './EditProfile.css';
 import {getCurrentUser, updateProfile, uploadFile} from "../../util/APIUtils";
 
@@ -17,6 +17,14 @@ class EditProfile extends Component {
             form: this.props.currentUser,
             previewSrc: this.props.currentUser.avatarUrl || null,
         });
+
+        getCurrentUser()
+            .then(response => {
+                this.setState({
+                    form: response,
+                    previewSrc: response.avatarUrl || null
+                });
+            });
     }
 
     handleFieldChange = (event, fieldName) => {

@@ -1,6 +1,6 @@
 package com.example.chat.service.user;
 
-import com.example.chat.persistence.entity.user.RoomLastMessage;
+import com.example.chat.persistence.entity.user.UserLastSeenMessageInRoom;
 import com.example.chat.persistence.entity.user.User;
 import com.example.chat.service.user.dto.CreateUserDto;
 import com.example.chat.service.user.dto.UpdateUserDto;
@@ -20,5 +20,5 @@ public interface UserService {
 
     boolean deleteUserById(Long id);
 
-    RoomLastMessage createOrUpdateRoomLastMessage(RoomLastMessage roomLastMessage);
+    UserLastSeenMessageInRoom createOrUpdateUserLastSeenMessageInRoom(UserLastSeenMessageInRoom userLastSeenMessageInRoom);
 }

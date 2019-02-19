@@ -1,9 +1,9 @@
 package com.example.chat.service.user.impl;
 
 import com.example.chat.persistence.entity.constant.UserRole;
-import com.example.chat.persistence.entity.user.RoomLastMessage;
+import com.example.chat.persistence.entity.user.UserLastSeenMessageInRoom;
 import com.example.chat.persistence.entity.user.User;
-import com.example.chat.persistence.repository.RoomLastMessageRepository;
+import com.example.chat.persistence.repository.UserLastSeenMessageInRoomRepository;
 import com.example.chat.persistence.repository.UserRepository;
 import com.example.chat.service.user.UserService;
 import com.example.chat.service.user.dto.CreateUserDto;
@@ -26,12 +26,12 @@ import org.springframework.util.StringUtils;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final RoomLastMessageRepository roomLastMessageRepository;
+    private final UserLastSeenMessageInRoomRepository userLastSeenMessageInRoomRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(final UserRepository userRepository, RoomLastMessageRepository roomLastMessageRepository, final PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(final UserRepository userRepository, UserLastSeenMessageInRoomRepository userLastSeenMessageInRoomRepository, final PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.roomLastMessageRepository = roomLastMessageRepository;
+        this.userLastSeenMessageInRoomRepository = userLastSeenMessageInRoomRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User createUser(final CreateUserDto createUserDto) {
-        throwIfUsernameOrEmailIsInUse(createUserDto.getUsername(), createUserDto.getEmail());
+        throwIfUsernameOrEmailIsInUseByOtherUser(null, createUserDto.getUsername(), createUserDto.getEmail());
 
         final User user = userFromCreateUserDto(createUserDto);
 
@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User updateUser(final UpdateUserDto updateUserDto) {
-        throwIfUsernameOrEmailIsInUse(updateUserDto.getUsername(), updateUserDto.getEmail());
+        throwIfUsernameOrEmailIsInUseByOtherUser(updateUserDto.getId(), updateUserDto.getUsername(), updateUserDto.getEmail());
 
         final User user = userRepository.findById(updateUserDto.getId())
                 .orElseThrow(() -> new UserNotFoundForIdException(updateUserDto.getId()));
@@ -86,15 +86,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public RoomLastMessage createOrUpdateRoomLastMessage(RoomLastMessage roomLastMessage) {
-        return roomLastMessageRepository.save(roomLastMessage);
+    @Transactional
+    public UserLastSeenMessageInRoom createOrUpdateUserLastSeenMessageInRoom(UserLastSeenMessageInRoom userLastSeenMessageInRoom) {
+        return userLastSeenMessageInRoomRepository.save(userLastSeenMessageInRoom);
     }
 
-    private void throwIfUsernameOrEmailIsInUse(final String username, final String email) {
-        if (userRepository.existsByUsername(username)) {
+    private void throwIfUsernameOrEmailIsInUseByOtherUser(final Long currentUserId, final String username, final String email) {
+        if (userRepository.existsByUsernameAndIdNot(username, currentUserId)) {
             throw new UsernameAlreadyInUseException(username);
         }
-        if (userRepository.existsByEmail(email)) {
+        if (userRepository.existsByEmailAndIdNot(email, currentUserId)) {
             throw new EmailAlreadyInUseException(email);
         }
     }

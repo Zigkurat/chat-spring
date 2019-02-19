@@ -2,7 +2,7 @@ package com.example.chat.rest.facade.room.impl;
 
 import com.example.chat.persistence.entity.message.Message;
 import com.example.chat.persistence.entity.room.Room;
-import com.example.chat.persistence.entity.user.RoomLastMessage;
+import com.example.chat.persistence.entity.user.UserLastSeenMessageInRoom;
 import com.example.chat.persistence.entity.user.User;
 import com.example.chat.rest.facade.room.RoomFacade;
 import com.example.chat.rest.model.room.request.CreateMessageInRoomRequest;
@@ -118,19 +118,19 @@ public class RoomFacadeImpl implements RoomFacade {
 
         final List<GetMessageResponse> roomResponses = messageMapper.mapAsList(messages, GetMessageResponse.class);
 
-        RoomLastMessage roomLastMessage = new RoomLastMessage(user, 0L, id);
-        roomLastMessage = user.getRoomLastMessages().stream().filter(lastMessage -> lastMessage.getRoomId().equals(id)).findFirst().orElse(roomLastMessage);
+        UserLastSeenMessageInRoom userLastSeenMessageInRoom = new UserLastSeenMessageInRoom(user, 0L, id);
+        userLastSeenMessageInRoom = user.getUserLastSeenMessageInRooms().stream().filter(lastMessage -> lastMessage.getRoomId().equals(id)).findFirst().orElse(userLastSeenMessageInRoom);
 
-        Long newLastMessageId = roomLastMessage.getMessageId();
+        Long newLastMessageId = userLastSeenMessageInRoom.getMessageId();
         for (Message message : pagedMessages.getContent()) {
             if (message.getId() > newLastMessageId) {
                 newLastMessageId = message.getId();
             }
         }
 
-        if (newLastMessageId > roomLastMessage.getMessageId()) {
-            roomLastMessage.setMessageId(newLastMessageId);
-            userService.createOrUpdateRoomLastMessage(roomLastMessage);
+        if (newLastMessageId > userLastSeenMessageInRoom.getMessageId()) {
+            userLastSeenMessageInRoom.setMessageId(newLastMessageId);
+            userService.createOrUpdateUserLastSeenMessageInRoom(userLastSeenMessageInRoom);
         }
 
         final GetRoomMessagesResponse response = new GetRoomMessagesResponse();
@@ -152,21 +152,21 @@ public class RoomFacadeImpl implements RoomFacade {
             return ResponseEntity.status(HttpStatus.LOCKED).body(response);
         }
 
-        RoomLastMessage roomLastMessage = new RoomLastMessage(user, 0L, id);
-        roomLastMessage = user.getRoomLastMessages().stream().filter(lastMessage -> lastMessage.getRoomId().equals(id)).findFirst().orElse(roomLastMessage);
+        UserLastSeenMessageInRoom userLastSeenMessageInRoom = new UserLastSeenMessageInRoom(user, 0L, id);
+        userLastSeenMessageInRoom = user.getUserLastSeenMessageInRooms().stream().filter(lastMessage -> lastMessage.getRoomId().equals(id)).findFirst().orElse(userLastSeenMessageInRoom);
 
-        List<Message> messages = messageService.getRoomMessagesAfterId(id, roomLastMessage.getMessageId());
+        List<Message> messages = messageService.getRoomMessagesAfterId(id, userLastSeenMessageInRoom.getMessageId());
 
-        Long newLastMessageId = roomLastMessage.getMessageId();
+        Long newLastMessageId = userLastSeenMessageInRoom.getMessageId();
         for (Message message : messages) {
             if (message.getId() > newLastMessageId) {
                 newLastMessageId = message.getId();
             }
         }
 
-        if (newLastMessageId > roomLastMessage.getMessageId()) {
-            roomLastMessage.setMessageId(newLastMessageId);
-            userService.createOrUpdateRoomLastMessage(roomLastMessage);
+        if (newLastMessageId > userLastSeenMessageInRoom.getMessageId()) {
+            userLastSeenMessageInRoom.setMessageId(newLastMessageId);
+            userService.createOrUpdateUserLastSeenMessageInRoom(userLastSeenMessageInRoom);
         }
 
         final List<GetMessageResponse> messageResponses = messageMapper.mapAsList(messages, GetMessageResponse.class);

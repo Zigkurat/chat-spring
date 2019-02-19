@@ -20,7 +20,7 @@ public class ApplicationProperties {
             return secret;
         }
 
-        public void setSecret(String secret) {
+        public void setSecret(final String secret) {
             this.secret = secret;
         }
 
@@ -28,7 +28,7 @@ public class ApplicationProperties {
             return expiration;
         }
 
-        public void setExpiration(Long expiration) {
+        public void setExpiration(final Long expiration) {
             this.expiration = expiration;
         }
     }
@@ -41,7 +41,7 @@ public class ApplicationProperties {
             return tokenSecret;
         }
 
-        public void setTokenSecret(String tokenSecret) {
+        public void setTokenSecret(final String tokenSecret) {
             this.tokenSecret = tokenSecret;
         }
 
@@ -49,7 +49,7 @@ public class ApplicationProperties {
             return tokenExpirationMsec;
         }
 
-        public void setTokenExpirationMsec(long tokenExpirationMsec) {
+        public void setTokenExpirationMsec(final long tokenExpirationMsec) {
             this.tokenExpirationMsec = tokenExpirationMsec;
         }
     }
@@ -61,7 +61,7 @@ public class ApplicationProperties {
             return authorizedRedirectUris;
         }
 
-        public void setAuthorizedRedirectUris(List<String> authorizedRedirectUris) {
+        public void setAuthorizedRedirectUris(final List<String> authorizedRedirectUris) {
             this.authorizedRedirectUris = authorizedRedirectUris;
         }
     }
