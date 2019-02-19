@@ -1,5 +1,6 @@
 package com.example.chat.security.jwt;
 
+import com.example.chat.config.ApplicationProperties;
 import com.example.chat.security.model.local.UserPrincipal;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
@@ -14,28 +15,28 @@ import java.util.Date;
 public class JwtTokenProvider {
     private static final Logger log = LoggerFactory.getLogger(JwtTokenProvider.class);
 
-    @Value("${app.jwt.secret}")
-    private String jwtSecret;
+    private final ApplicationProperties applicationProperties;
 
-    @Value("${app.jwt.expiration}")
-    private int jwtExpirationInMs;
+    public JwtTokenProvider(ApplicationProperties applicationProperties) {
+        this.applicationProperties = applicationProperties;
+    }
 
     public String generateToken(final Authentication authentication) {
         final UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         final Date now = new Date();
-        final Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
+        final Date expiryDate = new Date(now.getTime() + applicationProperties.getJwt().getExpiration());
 
         return Jwts.builder()
                 .setSubject(Long.toString(userPrincipal.getId()))
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .signWith(SignatureAlgorithm.HS512, applicationProperties.getJwt().getSecret())
                 .compact();
     }
 
     public Long getUserIdFromJwt(final String token) {
         final Claims claims = Jwts.parser()
-                .setSigningKey(jwtSecret)
+                .setSigningKey(applicationProperties.getJwt().getSecret())
                 .parseClaimsJws(token)
                 .getBody();
 
@@ -44,7 +45,7 @@ public class JwtTokenProvider {
 
     public boolean validateToken(final String token) {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
+            Jwts.parser().setSigningKey(applicationProperties.getJwt().getSecret()).parseClaimsJws(token);
             return true;
         } catch (SignatureException ex) {
             log.error("Invalid JWT signature");

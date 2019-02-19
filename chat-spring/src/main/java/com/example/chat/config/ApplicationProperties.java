@@ -7,8 +7,31 @@ import java.util.List;
 
 @ConfigurationProperties(prefix = "app")
 public class ApplicationProperties {
+    private final Jwt jwt = new Jwt();
     private final Auth auth = new Auth();
     private final OAuth2 outh2 = new OAuth2();
+
+
+    public static class Jwt {
+        private String secret;
+        private Long expiration;
+
+        public String getSecret() {
+            return secret;
+        }
+
+        public void setSecret(String secret) {
+            this.secret = secret;
+        }
+
+        public Long getExpiration() {
+            return expiration;
+        }
+
+        public void setExpiration(Long expiration) {
+            this.expiration = expiration;
+        }
+    }
 
     public static class Auth {
         private String tokenSecret;
@@ -41,6 +64,10 @@ public class ApplicationProperties {
         public void setAuthorizedRedirectUris(List<String> authorizedRedirectUris) {
             this.authorizedRedirectUris = authorizedRedirectUris;
         }
+    }
+
+    public Jwt getJwt() {
+        return jwt;
     }
 
     public Auth getAuth() {
